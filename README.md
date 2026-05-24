@@ -11,7 +11,7 @@
 
 ▶️ **[Watch the demo](https://youtu.be/tCHShFHWbZk)** &nbsp;·&nbsp; 📥 **[Setup & install →](#setup--install)**
 
-No instant download here — FusionLens needs a one-time setup on your Fusion tenant before the desktop client can talk to it. Watch the demo first to decide if it's worth the 5 minutes; the install steps below are concrete.
+Setup is **one-time per Fusion tenant**, takes ~5 minutes, and is usually handled by a BI Publisher developer or admin. After that, every teammate just downloads the client and signs in.
 
 ## Who it's for
 

@@ -22,7 +22,7 @@ Setup is **one-time per Fusion tenant**, takes ~5 minutes, and is usually handle
 
 ## Where it fits
 
-FusionLens **complements** Oracle Smart View, Account Monitor, Account Inspector, and Fusion Data Intelligence — it does not replace any of them. Those tools govern, dashboard, monitor, and present. FusionLens does one different job: **rapid tactical investigation** — pivot or flatten GL balances any way you need, drill from any cell into the journal, the SLA line, and the source row, with local filter / sort / export built in. For document types where Fusion exposes a deep link (AP invoices today, with more on the roadmap) one more click jumps straight from the drilled row into the live Fusion page for that document — no copy-pasting transaction numbers between tabs.
+FusionLens **complements** Oracle Smart View, Account Monitor, Account Inspector, and Fusion Data Intelligence — it does not replace any of them. Those tools govern, dashboard, monitor, and present. FusionLens does one different job: **rapid tactical investigation** — pivot or flatten GL balances any way you need, drill from any cell into the journal, the SLA line, and the source row, with local filter / sort / export built in. Wherever Fusion exposes a deep link for the source document, one more click jumps straight from the drilled row into the live Fusion page for that document — no copy-pasting transaction numbers between tabs.
 
 ## In 30 seconds
 

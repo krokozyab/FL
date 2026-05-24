@@ -54,67 +54,66 @@ In your Fusion instance, un-archive these two catalog files into `/Shared Folder
 
 Both files live in the [`otbireport/`](https://github.com/krokozyab/ofjdbc/tree/master/otbireport) folder of the `ofjdbc` repository. In Fusion, open **BI Publisher → Catalog**, then un-archive each file into the target folder.
 
-You can use a different catalog folder if your tenant's structure requires it — just update `bi_report_path` in your `config.json` to match (`/Custom/Financials/RP_ARB.xdo` by default). A Fusion administrator or report developer with BIP catalog write access typically handles this step.
+You can use a different catalog folder if your tenant's structure requires it — just point **BI Publisher report path** at the matching location in the in-app Settings form (the default is `/Custom/Financials/RP_ARB.xdo`). A Fusion administrator or report developer with BIP catalog write access typically handles this step.
 
 ### 1. Download the desktop client
 
-[Latest release for macOS & Windows](https://github.com/krokozyab/FL/releases/latest). Each release bundles:
+[Latest release for macOS & Windows](https://github.com/krokozyab/FL/releases/latest). Grab the build for your OS — macOS Apple Silicon `.app` (inside a `.zip`) or Windows `.exe` (inside a `.zip`). Drag the `.app` into `/Applications` (macOS) or extract the `.exe` anywhere (Windows). No `config.json` to place — settings live in their standard OS location and are managed through the in-app form.
 
-- The application binary — macOS Apple Silicon `.app` (in a `.zip`), or Windows `.exe`.
-- `config.example.json` — sample configuration to use as a template.
+### 2. First launch & Gatekeeper
 
-Place the binary and your `config.json` in the same folder (e.g. `C:\FusionLens\` on Windows, `~/Applications/FusionLens/` on macOS).
+- **macOS** — Gatekeeper blocks the app because the binary isn't signed by an Apple-registered developer. Right-click the app → **Open** → confirm in the dialog. macOS remembers your choice for future launches. (Alternative: **System Settings → Privacy & Security → "Open Anyway"** after the first blocked attempt.)
+- **Windows** — SmartScreen shows *"Windows protected your PC"* for the same reason. Click **More info → Run anyway**.
 
-### 2. Configure the connection
+### 3. Settings form (first run)
 
-Copy `config.example.json` to `config.json` and edit:
+On a fresh install, FusionLens opens straight to the **Settings** page. Add your first environment:
 
-| Field            | Value                                                                |
-|------------------|----------------------------------------------------------------------|
-| `fusion_host`    | Your tenant URL, e.g. `https://fa-acme-dev1.fa.us2.oraclecloud.com`. |
-| `bi_report_path` | Where you deployed the report, e.g. `/Custom/Financials/RP_ARB.xdo`. |
-| `auth_mode`      | `sso` (default) — or `basic` for service accounts. See below.        |
+- **Name** — short label like `dev1` / `prod`. Becomes the OS-keychain account for that environment's tokens.
+- **Fusion host URL** — e.g. `https://fa-acme-dev1.fa.us2.oraclecloud.com`.
+- **BI Publisher report path** — defaults to `/Custom/Financials/RP_ARB.xdo`; change only if you deployed the catalog files to a non-default folder (see Prerequisite).
+- **Authentication** — pick one:
+  - **SSO** (default) — Chrome opens on first sign-in, Bearer token is cached automatically and refreshed in the background. Requires Chrome installed on the machine.
+  - **HTTP Basic** — enter a service-account username + password; the password is written to your OS keychain, never to disk.
+- **Color** (optional) — pick an accent so dev / prod / sandbox stand out at a glance in the topbar dropdown.
 
-**Authentication modes**
+Optional collapsible sections cover performance tuning (max balance rows, SOAP / REST / SSO timeouts), cache-freshness windows, and tenant-specific cosmetic settings like segment-label prefix stripping. Reasonable defaults are baked in — leave them empty unless you need to tune.
 
-- **`sso` (default)** — at launch FusionLens opens Google Chrome, you sign in to Fusion once, and the Bearer token is captured and reused (with automatic refresh). Requires Chrome installed on the machine.
-- **`basic`** — HTTP Basic against a Fusion service-account user; no Chrome needed. Set credentials via environment variables (preferred):
+Click **Save & Connect** — FusionLens runs a quick `SELECT 1 FROM DUAL` against the Fusion host to verify the connection (this is also where Chrome opens for SSO sign-in on first save). On success it takes you straight to the main app; on a wrong host / bad credentials / SSO timeout, you stay on the settings form with the underlying error visible so you can fix and retry.
 
-  ```powershell
-  # Windows (PowerShell, current session)
-  $env:FLENS_USER     = "service_account"
-  $env:FLENS_PASSWORD = "..."
-  ```
+Revisit settings at any time via the **sliders icon** in the top-right corner.
 
-  ```bash
-  # macOS / Linux
-  export FLENS_USER=service_account
-  export FLENS_PASSWORD=...
-  ```
+### 4. Connect & investigate
 
-  For a permanent setting, use **System Properties → Environment Variables** (Windows) or your shell's rc file (macOS / Linux). Alternative: set `basic_user` / `basic_password` directly in `config.json`. Environment variables override the file when both are set.
+- The top-right pill should turn green and say **authenticated**.
+- The environment dropdown sits at the top-left of the topbar; click it to switch between saved tenants without going through settings.
+- Pick a ledger in the left panel — the picker is filtered by your Fusion Data Access Set grants.
+- Set the period range and any optional segment filters, then click **Submit**.
+- Drill into journal lines or SLA detail by clicking cells in the result table.
 
-### 3. First launch
+### Multiple environments
 
-- **macOS** — Gatekeeper will block the app because the binary isn't signed by an Apple-registered developer. Right-click the app → **Open** → confirm in the dialog. macOS remembers your choice for future launches. (Alternative: **System Settings → Privacy & Security → "Open Anyway"** after the first blocked attempt.)
-- **Windows** — SmartScreen will show *"Windows protected your PC"* for the same reason. Click **More info → Run anyway**.
+Open **Settings** → **+ Add** to register more tenants (e.g. `dev1`, `dev4`, `prod`). Each one keeps its own:
 
-In the FusionLens window:
+- Fusion host, BI Publisher report path, auth mode, credentials.
+- OS-keychain entry (tokens never mix between environments).
+- SQLite metadata cache (one file per `fusion_host`, isolated under `~/Library/Application Support/ofglpivot/metadata-*.db`).
+- Performance / cache-TTL settings.
 
-1. The top-right pill should turn green and say **authenticated**. The environment chip (`DEV1` / `PROD` / …) is derived from your `fusion_host`.
-2. Pick a ledger in the left panel — the picker is filtered by your Fusion data-access roles.
-3. Set the period range and any optional segment filters, then click **Submit**.
-4. Drill into journal lines or SLA detail by clicking cells in the result table.
+Switch the live environment via the topbar dropdown — the app rebuilds its connection in-place, no restart. Deleting an environment purges its keychain entries and SQLite cache file automatically.
 
 ### Where data lives
 
 For diagnostics or a forced clean state. Close the app first if you delete anything.
 
-| Purpose                  | macOS                                                  | Windows                                            |
-|--------------------------|--------------------------------------------------------|----------------------------------------------------|
-| Metadata cache (SQLite)  | `~/Library/Application Support/ofglpivot/metadata-*.db` | `%LocalAppData%\ofglpivot\metadata-*.db`          |
-| SSO / refresh tokens     | macOS Keychain (service `ofglpivot`)                   | Windows Credential Manager (service `ofglpivot`)  |
-| Logs                     | stdout — visible only when launched from a terminal    | stdout — visible only when launched from `cmd` / PowerShell |
+| Purpose                       | macOS                                                          | Windows                                                          |
+|-------------------------------|----------------------------------------------------------------|------------------------------------------------------------------|
+| Settings (saved environments) | `~/Library/Application Support/FusionLens/config.json`         | `%AppData%\FusionLens\config.json`                                |
+| Metadata cache (SQLite)       | `~/Library/Application Support/ofglpivot/metadata-*.db`        | `%LocalAppData%\ofglpivot\metadata-*.db`                          |
+| SSO tokens & Basic password   | macOS Keychain (service `ofglpivot`)                           | Windows Credential Manager (service `ofglpivot`)                  |
+| Logs                          | stdout — visible only when launched from a terminal            | stdout — visible only when launched from `cmd` / PowerShell       |
+
+Environment variables still work as overrides for headless / CI use — `OFGLPIVOT_FUSION_HOST`, `OFGLPIVOT_BI_REPORT_PATH`, `OFGLPIVOT_AUTH_MODE`, `FLENS_USER`, `FLENS_PASSWORD`. Anything set in the environment wins over the saved config file for the active environment.
 
 ### Notes & known behaviour
 

@@ -58,7 +58,7 @@ You can use a different catalog folder if your tenant's structure requires it �
 
 ### 1. Download the desktop client
 
-[Latest release for macOS & Windows](https://github.com/TODO-owner/fusionlens-releases/releases/latest). Each release bundles:
+[Latest release for macOS & Windows](https://github.com/krokozyab/FL/releases/latest). Each release bundles:
 
 - The application binary — macOS Apple Silicon `.app` (in a `.zip`), or Windows `.exe`.
 - `config.example.json` — sample configuration to use as a template.

@@ -8,7 +8,7 @@
 <p align="center">
   <img src="img/demo.gif" alt="FusionLens demo: balance → journals → SLA → AP invoice → xlsx export" width="720">
 </p>
-
+[![GitHub Downloads](https://img.shields.io/github/downloads/krokozyab/ofjdbc/total?style=for-the-badge&logo=github)](https://github.com/krokozyab/FL/releases)
 ▶️ **[Watch the demo](https://youtu.be/tCHShFHWbZk)** &nbsp;·&nbsp; 📥 **[Setup & install →](#setup--install)**
 
 Setup is **one-time per Fusion tenant**, takes ~5 minutes, and is usually handled by a BI Publisher developer or admin. After that, every teammate just downloads the client and signs in.

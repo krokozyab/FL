@@ -8,6 +8,8 @@
 <p align="center">
   <img src="img/demo.gif" alt="FusionLens demo: balance → journals → SLA → AP invoice → xlsx export" width="720">
 </p>
+
+
 ▶️ **[Watch the demo](https://youtu.be/tCHShFHWbZk)** &nbsp;·&nbsp; 📥 **[Setup & install →](#setup--install)**
 
 

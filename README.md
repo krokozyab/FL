@@ -87,8 +87,15 @@ You can use a different catalog folder if your tenant's structure requires it �
 
 ### 2. First launch & Gatekeeper
 
-- **macOS** — Gatekeeper blocks the app because the binary isn't signed by an Apple-registered developer. Right-click the app → **Open** → confirm in the dialog. macOS remembers your choice for future launches. (Alternative: **System Settings → Privacy & Security → "Open Anyway"** after the first blocked attempt.)
-- **Windows** — SmartScreen shows *"Windows protected your PC"* for the same reason. Click **More info → Run anyway**.
+- **macOS** — Gatekeeper blocks the app because the binary isn't signed by an Apple-registered developer. Right-click the app → **Open** → confirm in the dialog. macOS remembers your choice for future launches. (Alternative: **System Settings → Privacy & Security → "Open Anyway"** after the first blocked attempt.) If macOS instead says *"FusionLens is damaged and can't be opened"*, the download just got quarantined — clear it once with:
+  ```sh
+  xattr -dr com.apple.quarantine /Applications/FusionLens.app
+  ```
+  then open normally.
+- **Windows** — SmartScreen shows *"Windows protected your PC"* for the same reason (unsigned binary). Click **More info → Run anyway**. Unlike macOS there's no hard "damaged" block — the `.exe` runs after that one click. If the warning keeps reappearing, the `.zip` carried a *Mark of the Web*; clear it once via right-click the `.exe` → **Properties → Unblock**, or in PowerShell:
+  ```powershell
+  Unblock-File .\FusionLens.exe
+  ```
 
 ### 3. Settings form (first run)
 

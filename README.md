@@ -152,6 +152,7 @@ Environment variables still work as overrides for headless / CI use — `OFGLPIV
 - **No drilldown from pivot rows.** A pivot row spans multiple column values (e.g. one row per natural account, one column per period), so it doesn't map to a single balance with a journal stack to drill into. Switch the result to flat output to follow a balance into its journal / SLA / source document.
 - **"Access denied" banner** — selecting a ledger your Fusion role has no Data Access Set grant on shows *"Access denied — your Oracle Fusion role does not include this ledger"*. That's intended; not a bug.
 - **First-window onboarding glow** — on a fresh install the Ledger picker pulses with a *"Pick a ledger to start"* callout. It disappears once you've picked any ledger.
+- **macOS: *"FusionLens was prevented from modifying apps"*** — this notification can appear the first time SSO opens Chrome. FusionLens never modifies other apps; it launches your installed Google Chrome for sign-in, and Chrome's own auto-updater tries to update *itself* under FusionLens's process — macOS attributes that blocked write to FusionLens. It's harmless and SSO works regardless. To silence it, allow FusionLens under **System Settings → Privacy & Security → App Management**.
 
 ---
 

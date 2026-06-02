@@ -141,7 +141,7 @@ For diagnostics or a forced clean state. Close the app first if you delete anyth
 | Purpose                       | macOS                                                          | Windows                                                          |
 |-------------------------------|----------------------------------------------------------------|------------------------------------------------------------------|
 | Settings (saved environments) | `~/Library/Application Support/FusionLens/config.json`         | `%AppData%\FusionLens\config.json`                                |
-| Metadata cache (SQLite)       | `~/Library/Application Support/ofglpivot/metadata-*.db`        | `%LocalAppData%\ofglpivot\metadata-*.db`                          |
+| Metadata cache (SQLite)       | `~/Library/Caches/ofglpivot/metadata-*.db`                     | `%LocalAppData%\ofglpivot\metadata-*.db`                          |
 | SSO tokens & Basic password   | macOS Keychain (service `ofglpivot`)                           | Windows Credential Manager (service `ofglpivot`)                  |
 | Logs                          | stdout — visible only when launched from a terminal            | stdout — visible only when launched from `cmd` / PowerShell       |
 

@@ -44,6 +44,26 @@ No screenshots, no extracts from IT, no jumping across half a dozen Fusion pages
 
 FusionLens never writes to Fusion. It uses your existing Fusion access — Oracle SSO (Bearer tokens cached in your OS keychain: macOS Keychain / Windows Credential Manager) or HTTP Basic for service accounts — and only ever issues `SELECT` against the BI Publisher reports you're already authorized to read. Nothing leaves your machine.
 
+## AI assistant *(optional, off by default)*
+
+Sometimes you don't want to *read* the variance — you want someone to just tell you what moved. FusionLens has an optional AI layer for that. It stays out of the way until you ask it something, and it never tries to be the main character.
+
+- **Variance & anomaly commentary** — a two-line, plain-English read on what changed and whether it's worth a look, right next to the numbers.
+- **Explain this journal / line** — right-click a drilled row for the accounting story behind it.
+- **Sparkline trend read** — hover the inline period sparkline and get a one-line take on the shape of the trend, not just twelve dots you have to interpret yourself.
+- **"Describe what you need"** — type *"travel expenses, last 6 months, vs prior year"* and it fills in the Setup form for you. You still review and click Submit; it's an assistant, not an autopilot.
+
+Bring your own key — **Anthropic, OpenAI, Gemini, local Ollama, or any OpenAI-compatible endpoint**. FusionLens hosts no model and charges you for exactly zero tokens.
+
+And the unglamorous part that actually matters:
+
+- **Off until you switch it on.** Not everyone wants a robot in their ledger, and that's a perfectly reasonable position.
+- **You decide what's sent.** Amounts, source names, descriptions, vendor names — each is a separate opt-in tick. Anything you don't tick is stripped *before* the prompt ever leaves your machine, not politely asked not to be included.
+- **It can't make numbers up.** Segment values are resolved against *your* chart of accounts, and every figure in the narrative is checked against the data you handed it — so it won't invent an account that doesn't exist or a balance you never showed it.
+- **Keys in your OS keychain, a hard daily token cap, and an audit log of every call.** No background chatter — it speaks only when you click.
+
+Your close numbers don't train anyone's model. They just get a little easier to read.
+
 ## Setup & install
 
 FusionLens is a desktop client that talks to a small set of BI Publisher reports inside *your* Fusion tenant. The reports are how it asks Fusion for balances, journals, and SLA data — without them the client has nothing to call. Plan ~15 minutes for the first-time setup; after that, every user on your team just downloads the client.

@@ -55,6 +55,8 @@ Sometimes you don't want to *read* the variance — you want someone to just tel
 
 Bring your own key — **Anthropic, OpenAI, Gemini, local Ollama, or any OpenAI-compatible endpoint**. FusionLens hosts no model and charges you for exactly zero tokens.
 
+And you don't need a frontier model for any of this. A small local model is plenty — point FusionLens at a local **Ollama** running something tiny like **`phi4-mini`** and everything runs on your own machine: no API key, no tokens, no data ever leaving your laptop. The commentary is short and grounded in your data, so a lightweight model handles it comfortably.
+
 And the unglamorous part that actually matters:
 
 - **Off until you switch it on.** Not everyone wants a robot in their ledger, and that's a perfectly reasonable position.
